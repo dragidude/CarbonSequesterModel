@@ -1,21 +1,31 @@
-numpy>=1.21.0
-pandas>=1.3.0
-matplotlib>=3.5.0
-seaborn>=0.11.0
-plotly>=5.0.0
-scipy>=1.7.0
-scikit-learn>=1.0.0
-xarray>=0.20.0
-netCDF4>=1.6.0
-geopandas>=0.10.0
-folium>=0.12.0
-streamlit>=1.0.0
-dash>=2.0.0
-dash-bootstrap-components>=1.0.0
-jupyter>=1.0.0
-ipywidgets>=7.6.0
-tqdm>=4.62.0
-requests>=2.26.0
-pyyaml>=6.0
-click>=8.0.0
-rich>=12.0.0 
+# Johnny Algae Sea - Standalone HTML Calculator
+# 
+# This project is now a standalone HTML file that runs in any web browser.
+# No Python dependencies or installation required!
+# 
+# Simply open johnny_algae_sea_standalone.html in your browser.
+#
+# The following were the old Python dependencies when this was a complex project:
+# (kept for reference only - not needed for current version)
+
+# numpy>=1.21.0
+# pandas>=1.3.0
+# matplotlib>=3.5.0
+# seaborn>=0.11.0
+# plotly>=5.0.0
+# scipy>=1.7.0
+# scikit-learn>=1.0.0
+# xarray>=0.20.0
+# netCDF4>=1.6.0
+# geopandas>=0.10.0
+# folium>=0.12.0
+# streamlit>=1.0.0
+# dash>=2.0.0
+# dash-bootstrap-components>=1.0.0
+# jupyter>=1.0.0
+# ipywidgets>=7.6.0
+# tqdm>=4.62.0
+# requests>=2.26.0
+# pyyaml>=6.0
+# click>=8.0.0
+# rich>=12.0.0 

@@ -1,185 +1,167 @@
-# Algae Carbon Sequestration Model
+# Johnny Algae Sea - Carbon Sequestration Calculator
 
-A comprehensive Python-based system for modeling genetically modified algae/cyanobacteria for ocean carbon sequestration. This project provides "napkin math" calculations to test the viability of spraying GM algae to regions of the ocean where they can sequester carbon dioxide by growing, dying, and sinking to great depths.
+A simple, standalone HTML calculator for modeling algae-based ocean carbon sequestration. This project provides "napkin math" calculations to test the viability of deploying algae to regions of the ocean where they can sequester carbon dioxide by growing, dying, and sinking to great depths.
+
 <img width="1024" height="1024" alt="JohnnyAlgaeSea" src="https://github.com/user-attachments/assets/b849ad69-5ba4-48a3-93bc-6b662a5e564c" />
 
 ## 🌊 Project Overview
 
-This model addresses the key components needed to evaluate algae-based carbon sequestration:
+**Johnny Algae Sea** evaluates the key components needed for algae-based carbon sequestration:
 
-- **Biological**: Carbon content, growth rates, sinking rates, export fractions
-- **Environmental**: Light penetration, nutrient availability, temperature/salinity windows
-- **Operational**: Cultivation costs, delivery systems, vessel operations
-- **Economic**: Cost per tonne CO₂ removed, scale requirements
-- **Regulatory**: Monitoring, verification, safety considerations
+- **Biological**: Carbon content, growth rates, export fractions, doubling times
+- **Environmental**: Light penetration, temperature, salinity conditions
+- **Economic**: Cultivation costs, delivery systems, vessel operations, monitoring
+- **Viability**: Cost per tonne CO₂ removed, scale requirements, permanence
 
 ## 🚀 Features
 
-- **Comprehensive Algae Modeling**: Biological parameters for different GM strains
-- **Environmental Response**: Temperature, light, nutrient, and salinity limitations
-- **Economic Analysis**: Full cost breakdown and viability assessment
-- **Interactive Interface**: Streamlit web app for parameter tweaking
-- **Quick Calculator**: HTML-based calculator for rapid prototyping
-- **Scenario Analysis**: Compare different strains, environments, and scales
-- **Visualization**: Interactive charts and sensitivity analysis
-- **Data Export**: CSV, JSON, and comprehensive reports
+- **Standalone HTML Calculator**: No installation required - runs in any web browser
+- **Real-time Calculations**: Instant results as you adjust parameters
+- **Interactive Tooltips**: Detailed explanations for every parameter
+- **Comprehensive Modeling**: Biological, environmental, and economic factors
+- **Viability Assessment**: Weighted scoring system for project evaluation
+- **Visual Feedback**: Color-coded viability indicators
+- **Debug Console**: Built-in debugging for troubleshooting calculations
 
 ## 📁 Project Structure
 
 ```
 CarbonSequesterModel/
-├── src/
-│   ├── models/
-│   │   └── algae_model.py          # Core algae sequestration model
-│   └── main.py                     # Streamlit web application
-├── docs/
-│   └── model_documentation.md      # Comprehensive model documentation
-├── algae_cdr_calculator.html       # Quick online calculator
-├── requirements.txt                 # Python dependencies
-└── README.md                       # This file
+├── johnny_algae_sea_standalone.html    # Main calculator (open this!)
+├── JohnnyAlgaeSea.png                  # Character image
+├── README.md                           # This file
+├── requirements.txt                    # Legacy file (not needed)
+└── test_model.py                       # Legacy file (not needed)
 ```
 
-## 🛠️ Installation
+## 🛠️ Usage
 
-1. Clone the repository
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the Streamlit app: `streamlit run src/main.py`
+**It's that simple!**
 
-## 📊 Usage Examples
+1. Download `johnny_algae_sea_standalone.html`
+2. Open it in any web browser
+3. Adjust parameters and see results instantly
 
-### Quick Online Calculator
-Open `algae_cdr_calculator.html` in any web browser for instant parameter tweaking.
+No installation, no dependencies, no command line - just open and use!
 
-### Python Model
-```python
-from src.models.algae_model import *
+## 📊 Model Parameters
 
-# Create fast-growing cyanobacteria strain
-strain = AlgaeStrain(
-    name="Fast-growing Cyanobacteria",
-    carbon_content_percent=45.0,
-    doubling_time_hours=12.0,
-    photosynthetic_efficiency=0.8,
-    sinking_rate_m_per_day=50.0,
-    export_fraction=0.4,
-    optimal_temperature_range=(20, 30),
-    optimal_salinity_range=(30, 40)
-)
+### 🌱 Biological Parameters
+- **NPP (Net Primary Productivity)**: 50-500 g C/m²/yr
+- **Export Fraction**: 10-80% of algae that sink to depth
+- **Carbon Content**: 30-60% of biomass dry weight
+- **Doubling Time**: 6-72 hours for algae population growth
 
-# Tropical ocean environment
-environment = EnvironmentalConditions(
-    euphotic_depth_m=80,
-    surface_temperature_celsius=28,
-    salinity_ppt=35,
-    nutrient_nitrogen_umol_per_l=2.0,
-    nutrient_phosphorus_umol_per_l=0.2,
-    nutrient_iron_nmol_per_l=0.05,
-    mixing_depth_m=50,
-    current_speed_m_per_s=0.1
-)
+### 🌊 Environmental Parameters
+- **Area**: 100-10,000 km² deployment area
+- **Euphotic Depth**: 20-200 m where photosynthesis occurs
+- **Temperature**: 10-40°C optimal range 20-30°C
+- **Salinity**: 20-45 ppt optimal range 30-40 ppt
 
-# 1000 km² operation
-operations = OperationalParameters(
-    area_km2=1000,
-    application_frequency_per_year=4,
-    cultivation_cost_per_kg=0.5,
-    delivery_cost_per_kg=0.3,
-    vessel_cost_per_day=5000,
-    monitoring_cost_per_year=100000,
-    regulatory_cost_per_year=50000
-)
+### 💰 Economic Parameters
+- **Cultivation Cost**: $0.1-2.0 per kg biomass
+- **Delivery Cost**: $0.1-1.0 per kg to deployment site
+- **Vessel Cost**: $1,000-20,000 per day operational costs
+- **Monitoring Cost**: $50,000-500,000 per year
 
-# Run model
-model = AlgaeCarbonSequestrationModel(strain, environment, operations)
-metrics = model.calculate_viability_metrics()
-
-print(f"CO₂ Removed: {metrics['co2_removed_tonnes_per_year']:.1f} tonnes/year")
-print(f"Cost per Tonne: ${metrics['cost_per_tonne_co2']:.2f}/t CO₂")
-print(f"Viability Score: {metrics['viability_score']:.2f}/1.00")
-```
-
-### Streamlit Web App
-```bash
-streamlit run src/main.py
-```
-
-## 🔬 Model Parameters
-
-### Biological Parameters
-- **Carbon Content**: 30-60% dry weight
-- **Doubling Time**: 6-72 hours
-- **Sinking Rate**: 10-200 m/day
-- **Export Fraction**: 10-80% of NPP
-- **Temperature Range**: 10-40°C
-- **Salinity Range**: 20-45 ppt
-
-### Environmental Parameters
-- **Euphotic Depth**: 20-150 m
-- **Nutrient Concentrations**: N, P, Fe
-- **Mixing Depth**: 30-200 m
-- **Sequestration Depth**: 500-3000 m
-
-### Economic Parameters
-- **Cultivation Cost**: $0.1-2.0/kg biomass
-- **Delivery Cost**: $0.1-1.0/kg biomass
-- **Vessel Cost**: $1,000-20,000/day
-- **Monitoring Cost**: $50,000-500,000/year
+### 🎯 Targets & Weights
+- **Target Cost**: Competitive threshold (typically $50-200/t CO₂)
+- **Target Scale**: Desired annual CO₂ removal (Mt/yr)
+- **Permanence**: Required storage time (typically >100 years)
+- **Cost/Scale/Environmental Weights**: Customize assessment priorities
 
 ## 📈 Sample Results
 
-### Fast-growing Cyanobacteria in Tropical Ocean
-- **CO₂ Removed**: ~2,500 tonnes/year
-- **Cost per Tonne**: $85/t CO₂
-- **Viability Score**: 0.78/1.00
+### Example: Productive Tropical Deployment
+**Parameters:**
+- Area: 1,000 km²
+- NPP: 200 g C/m²/yr
+- Export Fraction: 40%
+- Temperature: 25°C (optimal)
 
-### GM Diatom Variant in Temperate Ocean
-- **CO₂ Removed**: ~1,800 tonnes/year
-- **Cost per Tonne**: $120/t CO₂
-- **Viability Score**: 0.65/1.00
+**Results:**
+- **CO₂ Removed**: ~147,000 tonnes/year
+- **Cost per Tonne**: ~$450/t CO₂
+- **Viability Score**: 0.12/1.00 (Low - too expensive)
 
-### Conservative GM Algae in Nutrient-rich Environment
-- **CO₂ Removed**: ~3,200 tonnes/year
-- **Cost per Tonne**: $75/t CO₂
-- **Viability Score**: 0.82/1.00
+### Getting to Viability
+To achieve competitive costs (<$100/t CO₂):
+- Increase scale (larger areas)
+- Improve algae efficiency (higher NPP/export fraction)
+- Reduce operational costs (vessel, cultivation)
+- Deploy in optimal conditions (temperature, nutrients)
 
 ## 🎯 Key Insights
 
-1. **Scale Matters**: Larger areas (>1000 km²) show better economics
-2. **Strain Selection**: Fast-growing strains with high export fractions perform best
-3. **Environmental Fit**: Temperature and nutrient availability are critical
-4. **Cost Drivers**: Vessel operations and monitoring are major cost components
-5. **Viability Threshold**: <$100/t CO₂ needed for competitiveness
+1. **Scale is Critical**: Larger deployments (>1000 km²) improve economics
+2. **Export Fraction Matters**: More algae sinking = more carbon sequestered
+3. **Environmental Optimization**: Stay within optimal temperature/salinity ranges
+4. **Cost Drivers**: Vessel operations and cultivation are major expenses
+5. **Viability Threshold**: <$100/t CO₂ needed for competitiveness with other CDR methods
 
-## 🔍 Model Limitations
+## 🔍 Understanding the Calculator
 
-- Simplified environmental response models
-- Assumes constant conditions (no seasonal variation)
-- Doesn't model competition with native species
-- Limited ecological impact assessment
-- Assumes genetic stability
+### Viability Scoring
+The calculator uses a weighted scoring system:
+- **Cost Score**: Based on cost per tonne vs. target (lower is better)
+- **Scale Score**: Based on CO₂ removal vs. target scale (higher is better)  
+- **Environmental Score**: Based on permanence and leakage risk
+
+### Cost Categories
+- **≤50% of target**: Excellent (Score: 1.0)
+- **≤100% of target**: Good (Score: 0.8)
+- **≤150% of target**: Fair (Score: 0.4)
+- **≤300% of target**: Poor (Score: 0.1)
+- **>300% of target**: Unviable (Score: 0.0)
+
+### Debug Features
+Open browser console (F12) to see detailed calculation breakdowns including:
+- Individual component scores
+- Weighted contributions
+- Parameter validation
+- Step-by-step calculations
+
+## 🔧 Troubleshooting
+
+**No results showing?**
+- Check browser console (F12) for errors
+- Ensure all parameters are positive numbers
+- Try refreshing the page
+
+**Cost weight seems to have no impact?**
+- Check if cost score is 0 (project too expensive)
+- Adjust parameters to get cost into viable range first
+- Use debug console to see weighted component contributions
+
+**Viability score seems wrong?**
+- Verify weight percentages add up reasonably
+- Check that environmental weight isn't being double-counted
+- Use debug output to trace calculation steps
 
 ## 🚀 Future Enhancements
 
-- Dynamic environmental models with seasonal variation
-- Competition models with native species
-- Ecological impact assessment
-- Genetic stability modeling
-- Regulatory scenario analysis
-- Technology learning curves
+- Seasonal variation modeling
+- Multiple algae strain comparisons
+- Economic scenario analysis
+- Sensitivity analysis tools
+- Batch parameter testing
+- Results export functionality
 
-## 📚 Documentation
+## 📄 Model Limitations
 
-See `docs/model_documentation.md` for comprehensive technical documentation including:
-- Detailed parameter descriptions
-- Calculation methodologies
-- Sample scenarios
-- Assumptions and limitations
+- Simplified environmental response models
+- Assumes constant conditions (no seasonal variation)
+- Doesn't model ecological interactions
+- Basic economic assumptions
+- No regulatory/permitting costs
+- Assumes technology feasibility
 
 ## 🤝 Contributing
 
+This is a simple HTML file - contributions welcome!
 1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
+2. Edit `johnny_algae_sea_standalone.html`
+3. Test in multiple browsers
 4. Submit a pull request
 
 ## 📄 License
@@ -188,4 +170,4 @@ MIT License - see LICENSE file for details.
 
 ---
 
-**Note**: This model provides "back-of-the-envelope" calculations for evaluating the viability of algae-based carbon sequestration. Results should be validated with more detailed studies before implementation. 
+**Note**: This calculator provides "back-of-the-envelope" calculations for evaluating algae-based carbon sequestration concepts. Results should be validated with detailed studies and expert review before any real-world implementation. 

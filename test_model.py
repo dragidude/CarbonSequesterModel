@@ -1,9 +1,28 @@
 #!/usr/bin/env python3
 """
+LEGACY FILE - No longer needed for Johnny Algae Sea
+
+This was a test script for the old Python-based Algae Carbon Sequestration Model.
+The project has been simplified to a standalone HTML calculator.
+
+To use the current version:
+1. Open johnny_algae_sea_standalone.html in any web browser
+2. No Python installation or dependencies required!
+
+This file is kept for reference only.
+
+--- Original Description ---
 Test script for the Algae Carbon Sequestration Model
 Demonstrates different scenarios and parameter combinations.
 """
 
+# The rest of this file is legacy code and not needed for the current HTML version
+print("⚠️  LEGACY FILE - This Python script is no longer needed!")
+print("📄 Please use johnny_algae_sea_standalone.html instead")
+print("🌐 Simply open the HTML file in any web browser")
+exit()
+
+# Legacy code below (not executed)
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
