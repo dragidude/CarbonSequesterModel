@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny Algae Sea - Carbon Sequestration Calculator</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 900px; 
+            margin: auto; 
+            padding: 2rem; 
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .character-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            display: block;
+        }
+        h1 {
+            color: #2E8B57;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            color: #4682B4;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        .slogan {
+            background: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(32, 178, 170, 0.3);
+        }
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .input-container {
+            position: relative;
+        }
+        .info-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #20B2AA;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: help;
+            z-index: 10;
+        }
+        .tooltip {
+            position: fixed;
+            background: #2E8B57;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 250px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+        .tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #2E8B57;
+        }
+        label { 
+            display: block; 
+            margin: 0.5rem 0; 
+            font-weight: 600;
+            color: #2E8B57;
+        }
+        input { 
+            width: 100%; 
+            padding: 0.8rem;
+            border: 2px solid #E0F6FF;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #F8FFFE;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #20B2AA;
+            background: white;
+            box-shadow: 0 0 10px rgba(32, 178, 170, 0.3);
+        }
+        button { 
+            margin: 1.5rem 0; 
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(32, 178, 170, 0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(32, 178, 170, 0.4);
+        }
+        #results { 
+            margin-top: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #E0F6FF 0%, #F0F8FF 100%);
+            border-radius: 15px;
+            border-left: 6px solid #20B2AA;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.3rem 0;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #E0F6FF;
+            font-size: 0.95rem;
+        }
+        .result-label {
+            font-weight: 600;
+            color: #2E8B57;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .result-value {
+            font-weight: 700;
+            color: #20B2AA;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .results-section {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #E0F6FF;
+        }
+        .results-section h4 {
+            color: #2E8B57;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .compact-result-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.2rem 0;
+            padding: 0.2rem 0;
+            font-size: 0.9rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #F0F8FF 0%, #E0F6FF 100%);
+            border-radius: 12px;
+            border: 2px solid #E0F6FF;
+        }
+        .section h3 {
+            color: #2E8B57;
+            margin-top: 0;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #20B2AA;
+            padding-bottom: 0.5rem;
+        }
+        .viability-indicator {
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .high { background: linear-gradient(135deg, #90EE90 0%, #98FB98 100%); color: #006400; }
+        .medium { background: linear-gradient(135deg, #F0E68C 0%, #FFFFE0 100%); color: #8B4513; }
+        .low { background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%); color: #8B0000; }
+        .ocean-decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(135deg, #4682B4 0%, #20B2AA 100%);
+            border-radius: 0 0 20px 20px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ocean-decoration"></div>
+        
+        <div class="header">
+            <img src="JohnnyAlgaeSea.png" alt="Johnny Algae Sea Character" class="character-image">
+            <h1>🌊 Johnny Algae Sea</h1>
+            <div class="subtitle">Carbon Sequestration Calculator</div>
+            <div class="slogan">Spray. Grow. Sink Carbon.</div>
+        </div>
+        
+        <div class="section">
+            <h3>🌱 Biological Parameters</h3>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>NPP (g C/m²/yr): <input id="npp" type="number" value="125" step="1"></label>
+                    <div class="info-icon" title="Net Primary Productivity">i</div>
+                    <div class="tooltip">Net Primary Productivity measures how much carbon the algae can capture from the atmosphere through photosynthesis. Think of it as the algae's "carbon appetite" - how much CO₂ they can eat and convert to biomass per square meter per year.</div>
+                </div>
+                <div class="input-container">
+                    <label>Export fraction (%): <input id="exportFraction" type="number" value="40" step="1"></label>
+                    <div class="info-icon" title="Export Fraction">i</div>
+                    <div class="tooltip">Export fraction is the percentage of algae that actually sink to the deep ocean instead of being eaten or decomposed near the surface. Only the sinking algae permanently remove carbon from the atmosphere.</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>Biomass C content (% dry weight): <input id="cContent" type="number" value="50" step="0.5"></label>
+                    <div class="info-icon" title="Carbon Content">i</div>
+                    <div class="tooltip">This is the percentage of the algae's dry weight that is pure carbon. Higher carbon content means more carbon is stored per kilogram of algae biomass.</div>
+                </div>
+                <div class="input-container">
+                    <label>Doubling time (hours): <input id="doublingTime" type="number" value="24" step="1"></label>
+                    <div class="info-icon" title="Doubling Time">i</div>
+                    <div class="tooltip">How long it takes for the algae population to double in size. Faster doubling (fewer hours) means the algae grow and multiply more quickly, capturing more carbon.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>🌊 Environmental Parameters</h3>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>Area (km²): <input id="area" type="number" value="1000" step="100"></label>
+                    <div class="info-icon" title="Area">i</div>
+                    <div class="tooltip">The total ocean area where the algae will be deployed. Larger areas can sequester more carbon but require more resources to manage.</div>
+                </div>
+                <div class="input-container">
+                    <label>Euphotic depth (m): <input id="euphoticDepth" type="number" value="80" step="5"></label>
+                    <div class="info-icon" title="Euphotic Depth">i</div>
+                    <div class="tooltip">The depth of water where sunlight can penetrate for photosynthesis. Deeper euphotic zones mean more space for algae to grow and more light available.</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>Surface temperature (°C): <input id="temperature" type="number" value="25" step="0.5"></label>
+                    <div class="info-icon" title="Temperature">i</div>
+                    <div class="tooltip">The water temperature at the ocean surface. Algae have optimal temperature ranges - too hot or too cold and they won't grow well.</div>
+                </div>
+                <div class="input-container">
+                    <label>Salinity (ppt): <input id="salinity" type="number" value="35" step="0.5"></label>
+                    <div class="info-icon" title="Salinity">i</div>
+                    <div class="tooltip">The saltiness of the ocean water (parts per thousand). Different algae strains prefer different salinity levels for optimal growth.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>💰 Economic Parameters</h3>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>Cost per kg biomass ($): <input id="costBiomass" type="number" value="0.5" step="0.1"></label>
+                    <div class="info-icon" title="Biomass Cost">i</div>
+                    <div class="tooltip">How much it costs to grow and prepare one kilogram of algae biomass for deployment. This includes cultivation, processing, and preparation costs.</div>
+                </div>
+                <div class="input-container">
+                    <label>Delivery cost per kg ($): <input id="deliveryCost" type="number" value="0.3" step="0.1"></label>
+                    <div class="info-icon" title="Delivery Cost">i</div>
+                    <div class="tooltip">The cost to transport and deploy one kilogram of algae to the target ocean area. Includes fuel, vessel time, and deployment equipment.</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-container">
+                    <label>Vessel cost per day ($): <input id="vesselCost" type="number" value="5000" step="500"></label>
+                    <div class="info-icon" title="Vessel Cost">i</div>
+                    <div class="tooltip">The daily operating cost of the ships needed to deploy and monitor the algae. Includes crew, fuel, maintenance, and vessel rental.</div>
+                </div>
+                <div class="input-container">
+                    <label>Monitoring cost per year ($): <input id="monitoringCost" type="number" value="100000" step="10000"></label>
+                    <div class="info-icon" title="Monitoring Cost">i</div>
+                    <div class="tooltip">Annual costs for monitoring the algae deployment, including scientific measurements, environmental impact assessment, and compliance reporting.</div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="calculate()">🌊 Calculate Carbon Sequestration</button>
+
+        <div id="results" style="display: none;">
+            <h2>📊 Results</h2>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Tooltip functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            let currentTooltip = null;
+            
+            infoIcons.forEach(icon => {
+                const tooltip = icon.nextElementSibling;
+                
+                icon.addEventListener('mouseenter', function(e) {
+                    // Hide any existing tooltip
+                    if (currentTooltip) {
+                        currentTooltip.classList.remove('show');
+                    }
+                    
+                    // Show this tooltip
+                    tooltip.classList.add('show');
+                    currentTooltip = tooltip;
+                    
+                    // Position tooltip near mouse cursor
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    
+                    // Position tooltip to the right of the cursor, but ensure it stays within viewport
+                    let left = mouseX + 15;
+                    let top = mouseY - 10;
+                    
+                    // Check if tooltip would go off the right edge
+                    if (left + 250 > window.innerWidth) {
+                        left = mouseX - 265; // Position to the left of cursor
+                    }
+                    
+                    // Check if tooltip would go off the bottom edge
+                    if (top + tooltip.offsetHeight > window.innerHeight) {
+                        top = mouseY - tooltip.offsetHeight - 10;
+                    }
+                    
+                    tooltip.style.left = left + 'px';
+                    tooltip.style.top = top + 'px';
+                });
+                
+                icon.addEventListener('mouseleave', function() {
+                    tooltip.classList.remove('show');
+                    currentTooltip = null;
+                });
+            });
+            
+            // Hide tooltip when clicking anywhere
+            document.addEventListener('click', function() {
+                if (currentTooltip) {
+                    currentTooltip.classList.remove('show');
+                    currentTooltip = null;
+                }
+            });
+            
+            // Add event listeners to all input fields for automatic recalculation
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    console.log('Input changed:', input.id, input.value);
+                    calculate();
+                });
+            });
+            
+            // Initial calculation
+            calculate();
+        });
+
+        function calculate() {
+            console.log("Calculate function called");
+            
+            // Get inputs
+            const npp = parseFloat(document.getElementById('npp').value); // g C/m2/yr
+            const exportFrac = parseFloat(document.getElementById('exportFraction').value) / 100;
+            const area_m2 = parseFloat(document.getElementById('area').value) * 1e6; // km2 -> m2
+            const cContent = parseFloat(document.getElementById('cContent').value) / 100;
+            const doublingTime = parseFloat(document.getElementById('doublingTime').value);
+            const euphoticDepth = parseFloat(document.getElementById('euphoticDepth').value);
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const salinity = parseFloat(document.getElementById('salinity').value);
+            const costBiomass = parseFloat(document.getElementById('costBiomass').value); // $/kg
+            const deliveryCost = parseFloat(document.getElementById('deliveryCost').value); // $/kg
+            const vesselCost = parseFloat(document.getElementById('vesselCost').value); // $/day
+            const monitoringCost = parseFloat(document.getElementById('monitoringCost').value); // $/year
+
+            console.log("Inputs:", { npp, exportFrac, area_m2, cContent, doublingTime, euphoticDepth, temperature, salinity, costBiomass, deliveryCost, vesselCost, monitoringCost });
+
+            // Calculate growth rate based on doubling time
+            const growthRate = Math.log(2) / (doublingTime / 24); // per day
+
+            // Environmental factors (simplified)
+            const tempFactor = temperature >= 20 && temperature <= 30 ? 1.0 : 0.5;
+            const lightFactor = euphoticDepth >= 100 ? 1.0 : euphoticDepth / 100; // More realistic scaling
+            const salinityFactor = salinity >= 30 && salinity <= 40 ? 1.0 : 0.7;
+            
+            const environmentalFactor = tempFactor * lightFactor * salinityFactor;
+
+            // Calculate carbon sequestration
+            const effectiveNPP = npp * environmentalFactor;
+            const carbonExport = effectiveNPP * exportFrac; // g C/m2/yr
+            const carbonExportTotal = carbonExport * area_m2 / 1000; // kg C/yr
+            const co2Removed = carbonExportTotal * 3.67 / 1000; // tonnes CO2/yr
+
+            // Calculate biomass required for the carbon sequestration
+            // We need enough biomass to produce the carbon that gets exported
+            const biomassNeeded = carbonExportTotal / cContent; // kg/yr (carbon export / carbon content)
+
+            // Calculate costs
+            const cultivationCost = biomassNeeded * costBiomass;
+            const deliveryCostTotal = biomassNeeded * deliveryCost;
+            const vesselCostTotal = vesselCost * 365;
+            const totalCost = cultivationCost + deliveryCostTotal + vesselCostTotal + monitoringCost;
+            const costPerTonne = co2Removed > 0 ? totalCost / co2Removed : Infinity;
+
+            // Calculate viability metrics
+            const viabilityScore = calculateViabilityScore(costPerTonne, co2Removed);
+            const costCompetitiveness = 100 / costPerTonne; // Target: $100/t CO2
+            const scaleAdequacy = co2Removed / 1000; // Target: 1000 t/year
+
+            console.log("Environmental factors:", { 
+                tempFactor, 
+                lightFactor, 
+                salinityFactor, 
+                environmentalFactor,
+                effectiveNPP,
+                carbonExport,
+                carbonExportTotal
+            });
+            console.log("Calculated results:", { carbonExportTotal, co2Removed, biomassNeeded, totalCost, costPerTonne, viabilityScore });
+
+            // Display results
+            const resultContent = document.getElementById('resultContent');
+            resultContent.innerHTML = `
+                <div class="results-grid">
+                    <div class="results-section">
+                        <h4>🌱 Carbon Sequestration</h4>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Carbon Export (kg C/yr)
+                                <div class="info-icon" title="Carbon Export">i</div>
+                                <div class="tooltip">The total amount of carbon that sinks to the deep ocean and is permanently removed from the atmosphere. This is the main measure of how much carbon dioxide we're actually removing.</div>
+                            </span>
+                            <span class="result-value">${carbonExportTotal.toLocaleString()}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                CO₂ Removed (tonnes/yr)
+                                <div class="info-icon" title="CO₂ Removed">i</div>
+                                <div class="tooltip">The amount of carbon dioxide removed from the atmosphere, converted from carbon to CO₂ (multiplied by 3.67). This is what matters for climate change.</div>
+                            </span>
+                            <span class="result-value">${co2Removed.toLocaleString()}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Biomass Required (kg/yr)
+                                <div class="info-icon" title="Biomass Required">i</div>
+                                <div class="tooltip">The total amount of algae biomass that needs to be grown and deployed to achieve the carbon sequestration. Higher carbon content means less biomass needed.</div>
+                            </span>
+                            <span class="result-value">${biomassNeeded.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-section">
+                        <h4>💰 Economics</h4>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Total Cost ($/yr)
+                                <div class="info-icon" title="Total Cost">i</div>
+                                <div class="tooltip">The total annual cost including cultivation, delivery, vessel operations, monitoring, and regulatory costs.</div>
+                            </span>
+                            <span class="result-value">$${totalCost.toLocaleString()}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Cost per Tonne CO₂ ($/t)
+                                <div class="info-icon" title="Cost per Tonne CO₂">i</div>
+                                <div class="tooltip">The cost to remove one tonne of CO₂ from the atmosphere. Lower is better - competitive carbon removal typically costs $50-200 per tonne.</div>
+                            </span>
+                            <span class="result-value">$${costPerTonne.toFixed(2)}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Cost Competitiveness
+                                <div class="info-icon" title="Cost Competitiveness">i</div>
+                                <div class="tooltip">How competitive this solution is compared to a target of $100 per tonne CO₂. Values above 1.0 mean it's competitive, below 1.0 means it's expensive.</div>
+                            </span>
+                            <span class="result-value">${costCompetitiveness.toFixed(2)}x target</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="results-section">
+                        <h4>🔬 Performance</h4>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Effective Growth Rate (per day)
+                                <div class="info-icon" title="Effective Growth Rate">i</div>
+                                <div class="tooltip">How fast the algae population grows, accounting for environmental conditions. Higher rates mean faster carbon capture.</div>
+                            </span>
+                            <span class="result-value">${(growthRate * environmentalFactor).toFixed(3)}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Environmental Factor
+                                <div class="info-icon" title="Environmental Factor">i</div>
+                                <div class="tooltip">How well the environmental conditions support algae growth. 1.0 is perfect, lower values mean poor conditions reduce productivity.</div>
+                            </span>
+                            <span class="result-value">${environmentalFactor.toFixed(2)}</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Scale Adequacy
+                                <div class="info-icon" title="Scale Adequacy">i</div>
+                                <div class="tooltip">How significant this deployment is compared to a target of 1,000 tonnes CO₂ per year. Values above 1.0 mean meaningful scale.</div>
+                            </span>
+                            <span class="result-value">${scaleAdequacy.toFixed(2)}x target</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-section">
+                        <h4>🎯 Assessment</h4>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Viability Score
+                                <div class="info-icon" title="Viability Score">i</div>
+                                <div class="tooltip">Overall assessment of this scenario's potential (0-1 scale). Based on cost competitiveness, scale, and safety factors.</div>
+                            </span>
+                            <span class="result-value">${viabilityScore.toFixed(2)}/1.00</span>
+                        </div>
+                        <div class="compact-result-item">
+                            <span class="result-label">
+                                Status
+                                <div class="info-icon" title="Status">i</div>
+                                <div class="tooltip">Quick assessment of whether this scenario shows promise for carbon sequestration.</div>
+                            </span>
+                            <span class="result-value">${getViabilityMessage(viabilityScore).split(' - ')[0]}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="viability-indicator ${getViabilityClass(viabilityScore)}">
+                    ${getViabilityMessage(viabilityScore)}
+                </div>
+            `;
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function calculateViabilityScore(costPerTonne, co2Removed) {
+            if (costPerTonne <= 0 || co2Removed <= 0) return 0;
+            
+            // Cost component (lower is better)
+            const costScore = Math.max(0, 1 - (costPerTonne - 50) / 200); // 50-250 $/t range
+            
+            // Scale component (higher is better)
+            const scaleScore = Math.min(1, co2Removed / 10000); // 10,000 t/year as full score
+            
+            // Environmental safety component (assuming genetic kill switch)
+            const safetyScore = 1.0;
+            
+            return (costScore * 0.4 + scaleScore * 0.4 + safetyScore * 0.2);
+        }
+
+        function getViabilityClass(score) {
+            if (score > 0.7) return 'high';
+            if (score > 0.4) return 'medium';
+            return 'low';
+        }
+
+        function getViabilityMessage(score) {
+            if (score > 0.7) return '✅ HIGH VIABILITY - Johnny Algae Sea shows strong potential for carbon sequestration!';
+            if (score > 0.4) return '⚠️ MEDIUM VIABILITY - Johnny Algae Sea may be viable with optimization';
+            return '❌ LOW VIABILITY - Johnny Algae Sea needs significant improvements to be viable';
+        }
+    </script>
+</body>
+</html> 
