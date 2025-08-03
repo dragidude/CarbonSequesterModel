@@ -1,6 +1,7 @@
 # Algae Carbon Sequestration Model
 
 A comprehensive Python-based system for modeling genetically modified algae/cyanobacteria for ocean carbon sequestration. This project provides "napkin math" calculations to test the viability of spraying GM algae to regions of the ocean where they can sequester carbon dioxide by growing, dying, and sinking to great depths.
+<img width="1024" height="1024" alt="JohnnyAlgaeSea" src="https://github.com/user-attachments/assets/b849ad69-5ba4-48a3-93bc-6b662a5e564c" />
 
 ## 🌊 Project Overview
 
